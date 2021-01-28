@@ -20,7 +20,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -32,7 +33,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -44,7 +46,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             country: {
                 elementType: 'input',
@@ -56,7 +59,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             postalCode: {
                 elementType: 'input',
@@ -70,7 +74,8 @@ class ContactData extends Component {
                     minLength: 5,
                     maxLength: 5
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -81,9 +86,12 @@ class ContactData extends Component {
                     ],
                     placeholder: 'Your Postal Code'
                 },
-                value: ''
+                validation: {},
+                value: 'fastest',
+                valid: true,
             },
-        }
+        },
+        formValid: false
     }
 
     orderHendler = () => {
@@ -111,9 +119,14 @@ class ContactData extends Component {
         const updateOrderForm = { ...this.state.orderForm };
         const updatedFrom = { ...updateOrderForm[inputIdentifier] };
         updatedFrom.value = event.target.value;
-        let valid = this.checkValidation(updatedFrom.value, updatedFrom.validation);
+        updatedFrom.valid = this.checkValidation(updatedFrom.value, updatedFrom.validation);
+        updatedFrom.touched = true;
         updateOrderForm[inputIdentifier] = updatedFrom;
-        this.setState({ orderForm: updateOrderForm });
+        let frmValid = true;
+        for (let validFrm in updateOrderForm) {
+            frmValid = updateOrderForm[validFrm].valid && frmValid;
+        }
+        this.setState({ orderForm: updateOrderForm, formValid: frmValid });
     }
 
     checkValidation = (value, rules) => {
@@ -150,9 +163,10 @@ class ContactData extends Component {
                     value={frmValue.config.value}
                     changed={(event) => this.changedHandler(event, frmValue.id)}
                     invalid={!frmValue.config.valid}
+                    touched={frmValue.config.touched}
                     shouldValidate={frmValue.config.validation} />
             ))}
-            <Button btnType="Success" cliked={this.orderHendler}>Order</Button>
+            <Button btnType="Success" cliked={this.orderHendler} disabled={!this.state.formValid}>Order</Button>
         </form>);
         if (this.state.loading) {
             form = (<Spinner />);

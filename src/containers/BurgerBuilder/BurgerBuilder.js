@@ -8,15 +8,14 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../../src/axios-orders';
 import Spinner from '../../components/UI/spinner/spinner';
 import withErrorHendler from '../../hoc/withErrorHendler/withErrorHendler';
-import * as burgerBuilderAction from '../../store/actions';
+import * as burgerBuilderAction from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 
     state = {
         Totalprice: 2,
         purchasable: false,
-        purchasing: false,
-        loading: false
+        purchasing: false
     };
 
     updatePurchase = (ingrt) => {
@@ -45,9 +44,6 @@ class BurgerBuilder extends Component {
 
         let ordersummary = null;
 
-        if (this.state.loading) {
-            ordersummary = <Spinner />;
-        }
         let burger = <Spinner />;
         if (this.props.indg) {
             burger = (
