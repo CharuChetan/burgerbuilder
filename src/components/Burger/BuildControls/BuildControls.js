@@ -3,10 +3,10 @@ import BuildControl from './BuildControl/BuildControl';
 import './BuildControls.css';
 
 const controls = [
-    { label: "Salad", type: "salad" },
-    { label: "Bacon", type: "bacon" },
-    { label: "Cheese", type: "cheese" },
-    { label: "Meat", type: "meat" }
+    { label: "Salad", type: "Salad" },
+    { label: "Bacon", type: "Bacon" },
+    { label: "Cheese", type: "Cheese" },
+    { label: "Meat", type: "Meat" }
 ];
 
 const buildControls = props => (
@@ -21,7 +21,7 @@ const buildControls = props => (
                 remove={() => props.ingredientRemove(ctrl.type)}
                 disbleBtn={props.disable[ctrl.type]} />
         ))}
-        <button className="OrderButton" disabled={!props.purchasable} onClick={props.ordered}>Order Now</button>
+        <button className="OrderButton" disabled={!props.purchasable} onClick={props.ordered}>{props.isAuth ? "Order Now" : "SignUp"}</button>
     </div>
 )
 
